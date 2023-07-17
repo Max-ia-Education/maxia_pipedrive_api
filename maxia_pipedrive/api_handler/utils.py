@@ -12,7 +12,7 @@ import maxia_pipedrive.consts
 
 
 API_TOKEN = {
-    'api_token': '7a4caafa16658df4a37f78fcd9f61c25ed672656'
+    'api_token': os.environ.get('PIPEDRIVE_API_TOKEN')
 }
 
 API_URL = 'https://maxia.pipedrive.com/api/v1/'
