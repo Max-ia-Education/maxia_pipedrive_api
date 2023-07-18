@@ -1,9 +1,11 @@
-from distutils.core import setup
+# from distutils.core import setup
+from setuptools import setup, find_packages
+version = '1.4'
 setup(
     # How you named your package folder (MyLib)
     name='maxia_pipedrive',
-    packages=['maxia_pipedrive'],   # Chose the same as "name"
-    version='1.1',      # Start with a small number and increase it with every change you make
+    packages=find_packages(),   # Chose the same as "name"
+    version=version,      # Start with a small number and increase it with every change you make
     # Chose a license from here: https://help.github.com/articles/licensing-a-repository
     license='MIT',
     # Give a short description about your library
@@ -13,7 +15,7 @@ setup(
     # Provide either the link to your github or to your website
     url='https://github.com/Max-ia-Education/maxia_pipedrive_api',
     # I explain this later on
-    download_url='https://github.com/Max-ia-Education/maxia_pipedrive_api/archive/refs/tags/v1.1.tar.gz',
+    download_url=f'https://github.com/Max-ia-Education/maxia_pipedrive_api/archive/refs/tags/v1.3.tar.gz',
     #   keywords = ['SOME', 'MEANINGFULL', 'KEYWORDS'],   # Keywords that define your package best
     install_requires=[            # I get to this in a second
         'numpy',
