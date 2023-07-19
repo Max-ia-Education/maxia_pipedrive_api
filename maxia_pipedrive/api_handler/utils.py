@@ -32,7 +32,7 @@ def save_migration(method_, migration_kind, migration_dict, obj_id=None):
         filename = f'{method_}_{migration_kind}_{timestp}.json'
     migration_fpath = join(
         maxia_pipedrive.consts.Consts.migrations_dir, filename)
-    print(f'Updated! Saving migration file: {migration_fpath}')
+    # print(f'Updated! Saving migration file: {migration_fpath}')
     with open(migration_fpath, 'w', encoding='utf-8') as f:
         json.dump(migration_dict, f, indent=1)
     return migration_fpath
@@ -127,15 +127,15 @@ def revert_migrations_from_path(migration_fpath, save=False):
             migrations = [migrations]
 
     list_reverse_migration, any_error = revert_migrations(migrations)
-    if any_error:
-        print('Check the moved file for more details about the error!')
+    # if any_error:
+        # print('Check the moved file for more details about the error!')
     filename = migration_fpath.split('/')[1]
     moved_migration_fpath = join(
         maxia_pipedrive.consts.Consts.reversed_migrations,
         filename
     )
-    print(
-        f'Moving reversed migration file from {migration_fpath} to {moved_migration_fpath}')
+    # print(
+        # f'Moving reversed migration file from {migration_fpath} to {moved_migration_fpath}')
     move(
         migration_fpath,
         moved_migration_fpath
@@ -144,7 +144,7 @@ def revert_migrations_from_path(migration_fpath, save=False):
         # output_fpath = ".".join(moved_migration_fpath.split('.')[:-1]) + "_reversion.json"
         output_fpath = join(
             maxia_pipedrive.consts.Consts.reversed_migrations, "reversion_"+filename)
-        print(f'Reversed! Saving reversion file: {output_fpath}')
+        # print(f'Reversed! Saving reversion file: {output_fpath}')
         with open(output_fpath, 'w', encoding='utf-8') as f:
             json.dump(list_reverse_migration, f, indent=1)
         return output_fpath
@@ -158,7 +158,7 @@ def get_request(endpoint):
     if req.status_code == 200 and req.json()['success']:
         return req.json()['data']
     else:
-        print(join(API_URL, endpoint), req.status_code)
+        # print(join(API_URL, endpoint), req.status_code)
         return []
 
 
@@ -175,9 +175,9 @@ def post_request(endpoint, json_data, migration_kind, save=False):
         json=json_data
     )
     if not (200 <= req.status_code < 300):
-        print(f'Request failed! status={req.status_code}')
-        print(req.content)
-        print('input:', migration_dict)
+        # print(f'Request failed! status={req.status_code}')
+        # print(req.content)
+        # print('input:', migration_dict)
         return {}
     req = req.json()
 
@@ -260,7 +260,7 @@ def update_request_v2(
             maxia_pipedrive.consts.Consts.migration_kind: migration_kind,
             maxia_pipedrive.consts.Consts.details: validated_update_dict
         }
-        print(migration_dict)
+        # print(migration_dict)
     req = requests.put(
         join(API_URL, endpoint),
         params=API_TOKEN,
@@ -303,7 +303,7 @@ def single_delete_request(endpoint):
 # def multiple_update_request(list_endpoint, list_json_data, migration_kind)
 
 
-def get_all_request(endpoint, verbose=False, **query_params_dict):
+def get_all_request(endpoint, verbose=False, output_fields=None, **query_params_dict):
     query_params_str = get_query_params(query_params_dict)
     list_data = []
     next_start = 0
@@ -315,14 +315,27 @@ def get_all_request(endpoint, verbose=False, **query_params_dict):
         )
         if req.status_code == 200:
             if req.json()['data'] is not None:
-                list_data += req.json()['data']
+                data = req.json()['data']
+                # Column filtering if asked
+                if output_fields is not None:
+                    data = [
+                        {
+                            k: v
+                            for k, v in el.items()
+                            if k in output_fields
+                        }
+
+                        for el in data
+                    ]
+
+                list_data += data
             next_start = req.json()['additional_data']['pagination'].get(
                 'next_start', None)
         else:
             next_start = None
-            print(req.text)
-        if verbose:
-            print(f'\tFetched {len(list_data)} from {endpoint}...')
+            # print(req.text)
+        # if verbose:
+            # print(f'\tFetched {len(list_data)} from {endpoint}...')
     return list_data
 
 
@@ -453,8 +466,8 @@ def update_multiple_object(
             maxia_pipedrive.consts.Consts.migrations_dir,
             f'update_{obj_migration_kind}_{timestp}_{stp+1}-{n_steps}.json')
         list_migration_fpath.append(migration_fpath)
-        print(
-            f'[{stp+1}/{n_steps}] Starting updates... Saving migration file on: {migration_fpath}')
+        # print(
+            # f'[{stp+1}/{n_steps}] Starting updates... Saving migration file on: {migration_fpath}')
         list_migration_dict = []
         try:
             for obj_id, update_dict in tqdm(zip(list_obj_id[stp * step_size:(stp + 1) * step_size],
@@ -480,8 +493,8 @@ def update_multiple_object(
 
         # Save massive step migration
 
-        print(
-            f'Migration step done! Saving step migration file: {migration_fpath}')
+        # print(
+            # f'Migration step done! Saving step migration file: {migration_fpath}')
         with open(migration_fpath, 'w', encoding='utf-8') as f:
             json.dump(list_migration_dict, f, indent=1)
 
@@ -490,8 +503,8 @@ def update_multiple_object(
         all_migration_fpath = join(
             maxia_pipedrive.consts.Consts.migrations_dir,
             f'update_{obj_migration_kind}_{timestp}.json')
-        print(
-            f'Saving all migrations into a single file: {all_migration_fpath} ...')
+        # print(
+            # f'Saving all migrations into a single file: {all_migration_fpath} ...')
     merged_migration_list_dict = []
     for migration_fpath in list_migration_fpath:
         with open(migration_fpath, 'r', encoding='utf-8') as f:
@@ -539,8 +552,8 @@ def create_multiple_objects(
             maxia_pipedrive.consts.Consts.migrations_dir,
             f'create_{obj_migration_kind}_{timestp}_{stp+1}-{n_steps}.json')
         list_migration_fpath.append(migration_fpath)
-        print(
-            f'[{stp+1}/{n_steps}] Starting updates... Saving migration file on: {migration_fpath}')
+        # print(
+            # f'[{stp+1}/{n_steps}] Starting updates... Saving migration file on: {migration_fpath}')
         list_migration_dict = []
         try:
             for create_obj_dict in tqdm(list_obj_dict[stp * step_size:(stp + 1) * step_size],
@@ -563,8 +576,8 @@ def create_multiple_objects(
 
         # Save massive step migration
 
-        print(
-            f'Migration step done! Saving step migration file: {migration_fpath}')
+        # print(
+            # f'Migration step done! Saving step migration file: {migration_fpath}')
         with open(migration_fpath, 'w', encoding='utf-8') as f:
             json.dump(list_migration_dict, f, indent=1)
 
@@ -573,8 +586,8 @@ def create_multiple_objects(
         all_migration_fpath = join(
             maxia_pipedrive.consts.Consts.migrations_dir,
             f'create_{obj_migration_kind}_{timestp}.json')
-        print(
-            f'Saving all migrations into a single file: {all_migration_fpath} ...')
+        # print(
+            # f'Saving all migrations into a single file: {all_migration_fpath} ...')
     merged_migration_list_dict = []
     for migration_fpath in list_migration_fpath:
         with open(migration_fpath, 'r', encoding='utf-8') as f:

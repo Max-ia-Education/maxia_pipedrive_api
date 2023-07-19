@@ -26,7 +26,7 @@ org_people_dict = all_persons.groupby('org_id')['id'].apply(list).to_dict()
 
 
 def get_all_deals(**query_params_dict):
-    print('Get all deals...')
+    # print('Get all deals...')
     return maxia_pipedrive.api_handler.utils.get_all_request(
         maxia_pipedrive.consts.Endpoints.deals,
         **query_params_dict
@@ -41,8 +41,8 @@ def cascade_following(list_deal_id, save=True, list_output_files=[], all_deals_d
         org_dict['id']: org_dict
         for org_dict in all_deals_data
     }
-    print(json.dumps({k: deal_id_deal_dict[k]
-          for k in list_deal_id[:5]}, indent=1))
+    # print(json.dumps({k: deal_id_deal_dict[k]
+        #   for k in list_deal_id[:5]}, indent=1))
     deal_id_deal_sdr_id = {
         did: (deal_id_deal_dict[did][maxia_pipedrive.models.Deal.get_api_code(
             maxia_pipedrive.models.Deal.assigned_sdr)] if isinstance(deal_id_deal_dict[did][maxia_pipedrive.models.Deal.get_api_code(
@@ -126,16 +126,16 @@ def cascade_following(list_deal_id, save=True, list_output_files=[], all_deals_d
     ]
 
 # The deal must be followed by the respective SDR
-    print('Adding followers to DEALS')
+    # print('Adding followers to DEALS')
     list_output_files.append(maxia_pipedrive.api_handler.followers.add_follower_to_multiple_deals(
         deal_following_list, save=save
     ))
-    print('Adding Followers to ORGANIZATIONS')
+    # print('Adding Followers to ORGANIZATIONS')
     # The organization must be followed by the respective SDR and Consultor
     list_output_files.append(maxia_pipedrive.api_handler.followers.add_follower_to_multiple_organization(
         org_following_list, save=save
     ))
-    print('Adding Followers to PERSONS')
+    # print('Adding Followers to PERSONS')
     # The persons from each organization must be followed by the respective SDR and Consultor
     list_output_files.append(maxia_pipedrive.api_handler.followers.add_follower_to_multiple_persons(
         persons_following_list, save=save
@@ -184,7 +184,7 @@ def create_multiple_deals(list_deal_dict, cascade=True, save=True):
         list_output_files.append(list_created_deals)
     if cascade:
         # Then, cascade the following
-        print('Cascading followers')
+        # print('Cascading followers')
         with open(list_output_files[0], 'r') as f:
             migration_data = json.load(f)
             list_deal_id = [d[maxia_pipedrive.consts.Consts.details][maxia_pipedrive.consts.Consts.id]
@@ -291,8 +291,8 @@ def update_multiple_deals(list_deal_id, list_update_dict, all_deals_data=None, s
             maxia_pipedrive.consts.Consts.migrations_dir,
             f'update_multidealid_{timestp}_{stp+1}-{n_steps}.json')
         list_migration_fpath.append(migration_fpath)
-        print(
-            f'[{stp+1}/{n_steps}] Starting updates... Saving migration file on: {migration_fpath}')
+        # print(
+            # f'[{stp+1}/{n_steps}] Starting updates... Saving migration file on: {migration_fpath}')
         list_migration_dict = []
         try:
             for deal_id, update_dict in tqdm(zip(list_deal_id[stp * step_size:(stp + 1) * step_size],
@@ -319,8 +319,8 @@ def update_multiple_deals(list_deal_id, list_update_dict, all_deals_data=None, s
 
         # Save massive step migration
 
-        print(
-            f'Migration step done! Saving step migration file: {migration_fpath}')
+        # print(
+            # f'Migration step done! Saving step migration file: {migration_fpath}')
         with open(migration_fpath, 'w', encoding='utf-8') as f:
             json.dump(list_migration_dict, f, indent=1)
 
@@ -328,8 +328,8 @@ def update_multiple_deals(list_deal_id, list_update_dict, all_deals_data=None, s
     all_migration_fpath = join(
         maxia_pipedrive.consts.Consts.migrations_dir,
         f'update_multidealid_{timestp}.json')
-    print(
-        f'Saving all migrations into a single file: {all_migration_fpath} ...')
+    # print(
+        # f'Saving all migrations into a single file: {all_migration_fpath} ...')
     merged_migration_list_dict = []
     for migration_fpath in list_migration_fpath:
         with open(migration_fpath, 'r', encoding='utf-8') as f:

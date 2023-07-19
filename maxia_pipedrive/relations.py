@@ -30,7 +30,7 @@ def fetch_id_inep_reference(org_id=None, save=True):
         }
     if save:
         timestp = datetime.now().strftime(dateformat)
-        print(len(id_inep_dict))
+        # # print(len(id_inep_dict))
         with open(f'data/relations/orgid_inep_{timestp}.json', 'w', encoding='utf-8') as f:
             json.dump(id_inep_dict, f, indent=1)
     return id_inep_dict
@@ -46,7 +46,7 @@ def fetch_orgfieldinfo_reference(save=True):
     }
     if save:
         timestp = datetime.now().strftime(dateformat)
-        print(len(key_id_dict))
+        # # print(len(key_id_dict))
         with open(f'data/relations/{maxia_pipedrive.consts.Relations.orgfieldinfo}_{timestp}.json', 'w', encoding='utf-8') as f:
             json.dump(key_id_dict, f, indent=1)
 
@@ -61,7 +61,7 @@ def fetch_dealfieldinfo_reference(save=True):
     }
     if save:
         timestp = datetime.now().strftime(dateformat)
-        print(len(key_id_dict))
+        # # print(len(key_id_dict))
         with open(f'data/relations/{maxia_pipedrive.consts.Relations.dealfieldinfo}_{timestp}.json', 'w', encoding='utf-8') as f:
             json.dump(key_id_dict, f, indent=1)
 
@@ -76,7 +76,7 @@ def fetch_personfieldinfo_reference(save=True):
     }
     if save:
         timestp = datetime.now().strftime(dateformat)
-        print(len(key_id_dict))
+        # # print(len(key_id_dict))
         with open(f'data/relations/{maxia_pipedrive.consts.Relations.personfieldinfo}_{timestp}.json', 'w', encoding='utf-8') as f:
             json.dump(key_id_dict, f, indent=1)
 
@@ -94,7 +94,7 @@ def fetch_useralias_userid_reference(save=True):
         k: v for d in name_email_id_dict for k, v in d.items()}
     if save:
         timestp = datetime.now().strftime(dateformat)
-        print(len(name_email_id_dict))
+        # # print(len(name_email_id_dict))
         with open(f'data/relations/useralias_userid_{timestp}.json', 'w', encoding='utf-8') as f:
             json.dump(name_email_id_dict, f, indent=1)
 
@@ -107,7 +107,7 @@ def fetch_stagealias_stageinfo_reference(save=True):
     }
     if save:
         timestp = datetime.now().strftime(dateformat)
-        print(len(stagealias_stagedata))
+        # # print(len(stagealias_stagedata))
         with open(f'data/relations/stagealias_stageinfo_{timestp}.json', 'w', encoding='utf-8') as f:
             json.dump(stagealias_stagedata, f, indent=1)
 
@@ -120,7 +120,7 @@ def fetch_products_info(save=True):
     }
     if save:
         timestp = datetime.now().strftime(dateformat)
-        print(len(product_info))
+        # # print(len(product_info))
         with open(f'data/relations/products_info_{timestp}.json', 'w', encoding='utf-8') as f:
             json.dump(product_info, f, indent=1)
 

@@ -159,7 +159,7 @@ def preprocess_base():
     }, inplace=True)
     df_base = df_base[['Escola', 'Razão Social',	'CNPJ', 'Status']].merge(
         load_inep_cleaned(), on='CNPJ')
-    # print(df_base[~df_base[Organization.cnpj].isin(inep_cleaned[Organization.cnpj].to_list())])
+    # # print(df_base[~df_base[Organization.cnpj].isin(inep_cleaned[Organization.cnpj].to_list())])
     df_base = df_base[['Escola', 'Nome', 'Razão Social', 'CNPJ',
                        maxia_pipedrive.models.Organization.inep_number, 'Razão Social',	'Cidade',	'UF',	'Status']]
     df_base.to_excel('data/microdados_treated/BASE_CLIENTES_2022_v1.xlsx')

@@ -20,10 +20,11 @@ def get_organization(org_id):
     return maxia_pipedrive.api_handler.utils.get_request(f'{maxia_pipedrive.consts.Endpoints.organizations}/{org_id}')
 
 
-def get_all_organizations(**query_params_dict):
-    print('Loading all organizations...')
+def get_all_organizations(output_fields=None, **query_params_dict):
+    # print('Loading all organizations...')
     return maxia_pipedrive.api_handler.utils.get_all_request(
         maxia_pipedrive.consts.Endpoints.organizations,
+        output_fields=output_fields,
         **query_params_dict
     )
 
@@ -80,8 +81,8 @@ def update_multiple_organizations(list_org_id, list_update_dict, all_org_data=No
             maxia_pipedrive.consts.Consts.migrations_dir,
             f'update_multiorgid_{timestp}_{stp+1}-{n_steps}.json')
         list_migration_fpath.append(migration_fpath)
-        print(
-            f'[{stp+1}/{n_steps}] Starting updates... Saving migration file on: {migration_fpath}')
+        # print(
+            # f'[{stp+1}/{n_steps}] Starting updates... Saving migration file on: {migration_fpath}')
         list_migration_dict = []
         try:
             for org_id, update_dict in tqdm(zip(list_org_id[stp * step_size:(stp + 1) * step_size],
@@ -108,8 +109,8 @@ def update_multiple_organizations(list_org_id, list_update_dict, all_org_data=No
 
         # Save massive step migration
 
-        print(
-            f'Migration step done! Saving step migration file: {migration_fpath}')
+        # print(
+            # f'Migration step done! Saving step migration file: {migration_fpath}')
         with open(migration_fpath, 'w', encoding='utf-8') as f:
             json.dump(list_migration_dict, f, indent=1)
 
@@ -117,8 +118,8 @@ def update_multiple_organizations(list_org_id, list_update_dict, all_org_data=No
     all_migration_fpath = join(
         maxia_pipedrive.consts.Consts.migrations_dir,
         f'update_multiorgid_{timestp}.json')
-    print(
-        f'Saving all migrations into a single file: {all_migration_fpath} ...')
+    # print(
+        # f'Saving all migrations into a single file: {all_migration_fpath} ...')
     merged_migration_list_dict = []
     for migration_fpath in list_migration_fpath:
         with open(migration_fpath, 'r', encoding='utf-8') as f:
@@ -182,7 +183,7 @@ def create_multiple_organizations(list_org_dict, step_size=500, save=True):
     #     el[owner_id_code] = el.get(owner_id_code, 12127564)
 
     # if len(list_org_dict) != len(validated_list_org_dict):
-    #     print(
+    #     # print(
     #         f'{len(list_org_dict)-len(validated_list_org_dict)} organization already exist. Skipping...')
     # return maxia_pipedrive_src.api_handler.utils.multiple_post_request(
     #     maxia_pipedrive_src.consts.Endpoints.organizations,
