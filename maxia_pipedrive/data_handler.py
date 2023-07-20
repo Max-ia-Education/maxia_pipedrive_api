@@ -259,22 +259,22 @@ def fetch_stagealias_stageinfo_reference(save=True):
 # RELATIONS MODULES
 
 
-def fetch_relation(relation: str):
+def fetch_relation(relation: str, save=True):
     available_relations = maxia_pipedrive.consts.Relations.get_available_relations()
     assert relation in available_relations, f'Relation must be one of {available_relations}'
 
     if relation == maxia_pipedrive.consts.Relations.orgid_inep:
-        return fetch_id_inep_reference(save=True)
+        return fetch_id_inep_reference(save=save)
     if relation == maxia_pipedrive.consts.Relations.orgfieldinfo:
-        return fetch_orgfieldinfo_reference(save=True)
+        return fetch_orgfieldinfo_reference(save=save)
     if relation == maxia_pipedrive.consts.Relations.useralias_userid:
-        return fetch_useralias_userid_reference(save=True)
+        return fetch_useralias_userid_reference(save=save)
     if relation == maxia_pipedrive.consts.Relations.stagealias_stageinfo:
-        return fetch_stagealias_stageinfo_reference(save=True)
+        return fetch_stagealias_stageinfo_reference(save=save)
     if relation == maxia_pipedrive.consts.Relations.dealfieldinfo:
-        return maxia_pipedrive.relations.fetch_dealfieldinfo_reference(save=True)
+        return maxia_pipedrive.relations.fetch_dealfieldinfo_reference(save=save)
     if relation == maxia_pipedrive.consts.Relations.personfieldinfo:
-        return maxia_pipedrive.relations.fetch_personfieldinfo_reference(save=True)
+        return maxia_pipedrive.relations.fetch_personfieldinfo_reference(save=save)
 
 def load_relation(relation: str) -> dict:
     available_relations = maxia_pipedrive.consts.Relations.get_available_relations()

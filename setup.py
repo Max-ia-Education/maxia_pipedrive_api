@@ -1,6 +1,6 @@
 # from distutils.core import setup
 from setuptools import setup, find_packages
-version = '1.5'
+version = '1.6.1'
 setup(
     # How you named your package folder (MyLib)
     name='maxia_pipedrive',

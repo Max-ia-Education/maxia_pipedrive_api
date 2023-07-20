@@ -155,7 +155,7 @@ def create_multiple_deals(list_deal_dict, cascade=True, save=True):
     """
     Create multiple deals (no product attached), if cascade = True it will cascade the following after creation
     """
-    all_deals = get_all_deals()
+    all_deals = get_all_deals(status='open')  # Fetch only open deals!
     all_deals_titles = [el[maxia_pipedrive.models.Deal.get_api_code(
         maxia_pipedrive.models.Deal.title)] for el in all_deals]
 
